@@ -111,7 +111,10 @@ export const TasksProvider = ({children}) => {
   useEffect(() => {
     setActiveFilter(filters.find(f => f.label === activeFilter.label) || filters[0]);
   }, [tasks]);
-  
+  const handleSelectedDay=(day)=>{
+    console.log("day =>",day)
+    
+  }
 
   return (
     <TasksContext.Provider
@@ -121,6 +124,7 @@ export const TasksProvider = ({children}) => {
         activeFilter,
         setActiveFilter,
         filters,
+        handleSelectedDay
       }}
     >
       {children}

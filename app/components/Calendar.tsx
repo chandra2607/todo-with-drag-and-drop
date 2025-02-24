@@ -2,11 +2,13 @@
 
 import { useState } from "react"
 import { Button } from "./Button"
+import { useTasksContext } from "./contexts/tasksContext"
 
 export function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-
+  
+ const { handleSelectedDay } = useTasksContext();
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate()
   }
@@ -67,9 +69,9 @@ export function Calendar() {
       </div>
       <div className="grid grid-cols-7 gap-2 mb-2">
         {daysOfWeek.map((day) => (
-          <div key={day} className="text-center text-sm font-medium text-gray-500">
+          <button key={day} className="text-center text-sm font-medium text-gray-500">
             {day}
-          </div>
+          </button>
         ))}
       </div>
       <div className="grid grid-cols-7 gap-2">
@@ -81,7 +83,7 @@ export function Calendar() {
           const isToday =
             day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()
           return (
-            <Button key={day} variant="secondary" className={`p-2 text-sm ${isToday ? "bg-blue-600 text-white" : ""}`}>
+            <Button onClick={()=>handleSelectedDay(new Date(year, month, day))} key={day} variant="secondary" className={`p-2 text-sm ${isToday ? "bg-blue-600 text-white" : ""}`}>
               {day}
             </Button>
           )
