@@ -3,8 +3,10 @@
 import { useState } from "react"
 import { Button } from "./Button"
 import { useTasksContext } from "./contexts/tasksContext"
+import dayjs from "dayjs"
 
 export function Calendar() {
+  const {tasks,selectedDate}=useTasksContext()
   const [currentDate, setCurrentDate] = useState(new Date())
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   
@@ -31,6 +33,9 @@ export function Calendar() {
       newDate.setFullYear(prevDate.getFullYear() + increment)
       return newDate
     })
+  }
+  const getTasksCountByDate = (_date: string) => {
+    return tasks.filter((task) => task.timeSlot.split(" ")[0] === _date).length
   }
 
   const year = currentDate.getFullYear()
@@ -82,9 +87,11 @@ export function Calendar() {
           const day = index + 1
           const isToday =
             day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()
+            const _date=dayjs(`${year}-${month+1}-${day}`).format('YYYY-MM-DD')
+            const _total=getTasksCountByDate(_date)
           return (
-            <Button onClick={()=>handleSelectedDay(new Date(year, month, day))} key={day} variant="secondary" className={`p-2 text-sm ${isToday ? "bg-blue-600 text-white" : ""}`}>
-              {day}
+            <Button  onClick={()=>handleSelectedDay(_date)} key={day} variant="secondary" className={`relative overflow-hidden p-2 h-[50px] lg:h-[70px] text-sm ${selectedDate===_date?'bg-green-300':''} ${isToday ? "bg-blue-600 text-white" : ""}`}>
+              {day} {_total>0&&(<span className={'p-3 h rounded-full right-0 absolute top-0 bg-black text-white translate-x-1/4 -translate-y-1/4'}>{_total}</span>)}
             </Button>
           )
         })}

@@ -23,13 +23,14 @@ function page() {
           <Hamburger />
         </button>
       </div>
+      {/* calender visibility mobile */}
       {isCalenderOpen && (
         <div className="fixed top-0 left-0 w-[80%] z-40">
           <Calendar />
         </div>
       )}
 
-      <div className="lg:basis-1/4">
+      <div className="lg:basis-1/4 lg:w-1/4">
         <TaskManager />
       </div>
       <div className="hidden lg:block lg:basis-3/4">

@@ -1,86 +1,34 @@
 "use client";
+import dayjs from "dayjs";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-
+import initialTasks from '../contexts/tasks.json'
 const TasksContext = createContext(null);
 export const TasksProvider = ({children}) => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Client Review & Feedback",
-      subtitle: "Crypto Wallet Redesign",
-      timeSlot: "Today 10:00 PM - 11:45 PM",
-      isCompleted: false,
-      assignees: ["/man.png", "/woman.png"],
-    },
-    {
-      id: 2,
-      title: "Create Wireframe",
-      subtitle: "Crypto Wallet Redesign",
-      timeSlot: "Today 09:15 PM - 10:00 PM",
-      isCompleted: true,
-      assignees: ["/man.png", "/profile.png", "/woman.png"],
-    },
-    {
-      id: 3,
-      title: "Client Review & Feedback",
-      subtitle: "Crypto Wallet Redesign",
-      timeSlot: "Today 10:00 PM - 11:45 PM",
-      isCompleted: true,
-      assignees: ["/man.png", "/woman.png"],
-    },
-    {
-      id: 4,
-      title: "Create Wireframe",
-      subtitle: "Crypto Wallet Redesign",
-      timeSlot: "Today 09:15 PM - 10:00 PM",
-      isCompleted: true,
-      assignees: ["/man.png", "/profile.png", "/woman.png"],
-    },
-    {
-      id: 5,
-      title: "Client Review & Feedback",
-      subtitle: "Crypto Wallet Redesign",
-      timeSlot: "Today 10:00 PM - 11:45 PM",
-      isCompleted: true,
-      assignees: ["/man.png", "/woman.png"],
-    },
-    {
-      id: 6,
-      title: "Create Wireframe",
-      subtitle: "Crypto Wallet Redesign",
-      timeSlot: "Today 09:15 PM - 10:00 PM",
-      isCompleted: true,
-      assignees: ["/man.png", "/profile.png", "/woman.png"],
-    },
-    {
-      id: 7,
-      title: "Client Review & Feedback",
-      subtitle: "Crypto Wallet Redesign",
-      timeSlot: "Today 10:00 PM - 11:45 PM",
-      isCompleted: true,
-      assignees: ["/man.png", "/woman.png"],
-    },
-    {
-      id: 8,
-      title: "Create Wireframe",
-      subtitle: "Crypto Wallet Redesign",
-      timeSlot: "Today 09:15 PM - 10:00 PM",
-      isCompleted: true,
-      assignees: ["/man.png", "/profile.png", "/woman.png"],
-    },
-  ]);
-
+  const [tasks, setTasks] = useState(initialTasks);
+  const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD'));
+  // expose some variable to the window object
+  const visibleTasks = useMemo(() => {
+    return tasks.filter((task) => task.timeSlot.split(" ")[0] === selectedDate);
+  },[tasks,selectedDate])
+  
+  if(typeof window !== 'undefined')
+  {
+    window.tasks = tasks;
+    window.visibleTasks = visibleTasks;
+    window.dayjs = dayjs;
+    window.selectedDate = selectedDate;
+  }
   const filters =[
-    { label: "All", count: tasks.length, filteredTasks: tasks },
+    { label: "All", count: visibleTasks.length, filteredTasks: visibleTasks },
     {
       label: "Open",
-      count: tasks.filter((item) => item.isCompleted === false).length,
-      filteredTasks: tasks.filter((item) => item.isCompleted === false),
+      count: visibleTasks.filter((item) => item.isCompleted === false).length,
+      filteredTasks: visibleTasks.filter((item) => item.isCompleted === false),
     },
     {
       label: "Closed",
-      count: tasks.filter((item) => item.isCompleted === true).length,
-      filteredTasks: tasks.filter((item) => item.isCompleted === true),
+      count: visibleTasks.filter((item) => item.isCompleted === true).length,
+      filteredTasks: visibleTasks.filter((item) => item.isCompleted === true),
     },
     // { label: "Archived", count: 2 },
   ]
@@ -110,21 +58,22 @@ export const TasksProvider = ({children}) => {
   };
   useEffect(() => {
     setActiveFilter(filters.find(f => f.label === activeFilter.label) || filters[0]);
-  }, [tasks]);
+  }, [tasks,selectedDate]);
   const handleSelectedDay=(day)=>{
-    console.log("day =>",day)
-    
+    setSelectedDate(day)
   }
 
   return (
     <TasksContext.Provider
       value={{
+        tasks,
         handleCompletionStatus,
         handleAddTodo,
         activeFilter,
         setActiveFilter,
         filters,
-        handleSelectedDay
+        handleSelectedDay,
+        selectedDate,
       }}
     >
       {children}

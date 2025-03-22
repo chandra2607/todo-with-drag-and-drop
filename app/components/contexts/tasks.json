@@ -1,0 +1,138 @@
+[
+  {
+    "id": 1,
+    "title": "Client Review & Feedback",
+    "subtitle": "Crypto Wallet Redesign",
+    "timeSlot": "2025-03-22 22:00",
+    "isCompleted": false,
+    "assignees": ["/man.png", "/woman.png"]
+  },
+  {
+    "id": 2,
+    "title": "Design UI Components",
+    "subtitle": "Mobile Banking App",
+    "timeSlot": "2025-03-22 21:15",
+    "isCompleted": true,
+    "assignees": ["/man.png", "/profile.png", "/woman.png"]
+  },
+  {
+    "id": 3,
+    "title": "Weekly Team Meeting",
+    "subtitle": "Project Status Update",
+    "timeSlot": "2025-03-16 22:00",
+    "isCompleted": true,
+    "assignees": ["/man.png", "/woman.png"]
+  },
+  {
+    "id": 4,
+    "title": "User Testing Session",
+    "subtitle": "E-commerce Platform",
+    "timeSlot": "2025-03-17 21:15",
+    "isCompleted": true,
+    "assignees": ["/man.png", "/profile.png", "/woman.png"]
+  },
+  {
+    "id": 5,
+    "title": "Sprint Planning",
+    "subtitle": "Q4 Deliverables",
+    "timeSlot": "2025-03-17 22:00",
+    "isCompleted": true,
+    "assignees": ["/man.png", "/woman.png"]
+  },
+  {
+    "id": 6,
+    "title": "Code Review",
+    "subtitle": "Frontend Components",
+    "timeSlot": "2025-03-18 21:15",
+    "isCompleted": true,
+    "assignees": ["/man.png", "/profile.png", "/woman.png"]
+  },
+  {
+    "id": 7,
+    "title": "Stakeholder Presentation",
+    "subtitle": "Product Roadmap",
+    "timeSlot": "2025-03-19 22:00",
+    "isCompleted": true,
+    "assignees": ["/man.png", "/woman.png"]
+  },
+  {
+    "id": 8,
+    "title": "Bug Fix Session",
+    "subtitle": "Critical Issues",
+    "timeSlot": "2025-03-20 21:15",
+    "isCompleted": true,
+    "assignees": ["/man.png", "/profile.png", "/woman.png"]
+  },
+  {
+    "id": 9,
+    "title": "Design System Update",
+    "subtitle": "Component Library",
+    "timeSlot": "2025-03-15 14:30",
+    "isCompleted": false,
+    "assignees": ["/profile.png", "/woman.png"]
+  },
+  {
+    "id": 10,
+    "title": "API Integration",
+    "subtitle": "Payment Gateway",
+    "timeSlot": "2025-03-16 10:00",
+    "isCompleted": false,
+    "assignees": ["/man.png", "/profile.png"]
+  },
+  {
+    "id": 11,
+    "title": "Client Onboarding",
+    "subtitle": "New Enterprise Account",
+    "timeSlot": "2025-03-17 13:45",
+    "isCompleted": false,
+    "assignees": ["/woman.png"]
+  },
+  {
+    "id": 12,
+    "title": "Performance Review",
+    "subtitle": "Q3 Metrics Analysis",
+    "timeSlot": "2025-03-18 15:30",
+    "isCompleted": false,
+    "assignees": ["/man.png", "/woman.png"]
+  },
+  {
+    "id": 13,
+    "title": "UX Research",
+    "subtitle": "User Journey Mapping",
+    "timeSlot": "2025-03-19 11:15",
+    "isCompleted": true,
+    "assignees": ["/profile.png", "/woman.png"]
+  },
+  {
+    "id": 14,
+    "title": "Content Strategy",
+    "subtitle": "Blog & Social Media",
+    "timeSlot": "2025-03-20 09:30",
+    "isCompleted": false,
+    "assignees": ["/man.png"]
+  },
+  {
+    "id": 15,
+    "title": "Security Audit",
+    "subtitle": "Data Protection Review",
+    "timeSlot": "2025-03-16 16:45",
+    "isCompleted": true,
+    "assignees": ["/man.png", "/profile.png", "/woman.png"]
+  },
+  {
+    "id": 16,
+    "title": "Product Demo",
+    "subtitle": "New Feature Release",
+    "timeSlot": "2025-03-18 12:00",
+    "isCompleted": false,
+    "assignees": ["/man.png", "/woman.png"]
+  },
+  {
+    "id": 17,
+    "title": "Marketing Campaign",
+    "subtitle": "Holiday Season Promotion",
+    "timeSlot": "2025-03-19 14:00",
+    "isCompleted": true,
+    "assignees": ["/profile.png"]
+  }
+]

@@ -27,7 +27,7 @@ export default function TaskManager() {
   } = useTasksContext();
 
   return (
-    <div className="min-h-screen bg-white max-h-screen overflow-auto">
+    <div className="min-h-screen bg-white max-h-screen overflow-scroll">
       <div className="container max-w-md mx-auto p-4">
         {/* Custom Tabs */}
         <div className="flex justify-between border-b sticky top-2 bg-white">
