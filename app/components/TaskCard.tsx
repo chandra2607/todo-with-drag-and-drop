@@ -6,10 +6,11 @@ interface TaskCardProps {
   timeSlot: string
   isCompleted: boolean
   assignees: string[],
-  handleCompletionStatus:Function
+  handleCompletionStatus:Function,
+  priority:string;
 }
 
-export function TaskCard({ title, subtitle, timeSlot, isCompleted, assignees,handleCompletionStatus }: TaskCardProps) {
+export function TaskCard({ title, subtitle, timeSlot, isCompleted, assignees,handleCompletionStatus,priority }: TaskCardProps) {
   return (
     <div className={`border rounded-xl p-4 shadow-sm ${isCompleted ? "bg-green-50" : ""}`}>
       <div className="flex items-start justify-between">
@@ -36,7 +37,45 @@ export function TaskCard({ title, subtitle, timeSlot, isCompleted, assignees,han
           )}
         </div>
       </div>
+      <div>
+      <p className={`text-sm text-gray-500 flex items-center gap-1`}>Priority {priority} &nbsp;<PriorityIcon priority={priority} /></p>
+      </div>
     </div>
   )
 }
 
+// Priority icon component with different visuals based on priority level
+const PriorityIcon = ({ priority }) => {
+  const numPriority = Number(priority) || 1;
+  
+  // Color based on priority
+  const getColor = () => {
+    if (numPriority >= 4) return "text-red-500";
+    if (numPriority === 3) return "text-orange-500";
+    if (numPriority === 2) return "text-yellow-500";
+    return "text-blue-500";
+  };
+  
+  return (
+    <svg 
+      className={`w-4 h-4 ${getColor()}`} 
+      fill="currentColor" 
+      viewBox="0 0 24 24"
+    >
+      <path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+        strokeWidth={2}
+        stroke="currentColor"
+        fill="none"
+      />
+    </svg>
+  );
+};
+
+// blaze svg
+const Blaze=()=>(
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+</svg>
+)

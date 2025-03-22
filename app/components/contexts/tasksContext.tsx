@@ -8,7 +8,7 @@ export const TasksProvider = ({children}) => {
   const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD'));
   // expose some variable to the window object
   const visibleTasks = useMemo(() => {
-    return tasks.filter((task) => task.timeSlot.split(" ")[0] === selectedDate);
+    return tasks.filter((task) => task.timeSlot === selectedDate);
   },[tasks,selectedDate])
   
   if(typeof window !== 'undefined')
@@ -37,12 +37,13 @@ export const TasksProvider = ({children}) => {
     title: string;
     description: string;
     date: string;
-    time: string;
+    priority: string;
   }) => {
     const newTask = {
       title: todo.title,
       subtitle: todo.description,
-      timeSlot: `${todo.date} ${todo.time}`,
+      timeSlot: todo.date,
+      priority: todo.priority,
       isCompleted: false,
       assignees: ["/profile.png"],
       id: Math.random(),

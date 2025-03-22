@@ -15,17 +15,17 @@ export function AddTodoPopup({ isOpen, onClose, onAddTodo }: AddTodoPopupProps) 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [date, setDate] = useState("")
-  const [time, setTime] = useState("")
+  const [priority, setPriority] = useState("")
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onAddTodo({ title, description, date, time })
+    onAddTodo({ title, description, date, priority })
     onClose()
     // Reset form fields
     setTitle("")
     setDescription("")
     setDate("")
-    setTime("")
+    setPriority("")
   }
 
   if (!isOpen) return null
@@ -85,14 +85,15 @@ export function AddTodoPopup({ isOpen, onClose, onAddTodo }: AddTodoPopupProps) 
               <label htmlFor="time" className="block text-sm font-medium text-gray-700 mb-1">
                 Time
               </label>
-              <input
-                type="time"
-                id="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md"
-                required
-              />
+              <select id="priority" value={priority} onChange={(e) => setPriority(e.target.value)} className="w-full px-3 py-2 border rounded-md">
+              <option disabled value="">Select Priority</option>
+              <option value="5">5&nbsp;(High)</option>
+              <option value="4">4</option>
+              <option value="3">3</option>
+              <option value="2">2</option>
+              <option value="1">1&nbsp;(Low)</option>
+              </select>
+  
             </div>
           </div>
           <div className="flex justify-end gap-4 mt-6">
