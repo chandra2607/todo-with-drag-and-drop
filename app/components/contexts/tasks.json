@@ -3,7 +3,7 @@
     "id": 1,
     "title": "Client Review & Feedback",
     "subtitle": "Crypto Wallet Redesign",
-    "timeSlot": "2025-03-23",
+    "timeSlot": "2025-03-11",
     "priority": "5",
     "isCompleted": false,
     "assignees": ["/man.png", "/woman.png"]
@@ -12,7 +12,7 @@
     "id": 2,
     "title": "Design UI Components",
     "subtitle": "Mobile Banking App",
-    "timeSlot": "2025-03-23",
+    "timeSlot": "2025-03-11",
     "priority": "5",
     "isCompleted": true,
     "assignees": ["/man.png", "/profile.png", "/woman.png"]

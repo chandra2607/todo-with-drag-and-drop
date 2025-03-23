@@ -1,5 +1,6 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Avatar } from "./Avatar";
+import { useTasksContext } from "./contexts/tasksContext";
 
 interface TaskCardProps {
   title: string;
@@ -20,52 +21,114 @@ export function TaskCard({
   assignees,
   handleCompletionStatus,
   priority,
-  id
+  id,
 }: TaskCardProps) {
   const reactUnikId = useId();
+  const { tasks, setTasks } = useTasksContext();
   const [dragStarted, setDragStarted] = useState(false);
+  const [draggedIndex, setDraggedIndex] = useState(-1);
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
+  const dragRef = useRef(null);
+  const lastDragPosition = useRef(null);
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    setHoveredIndex(Number(id));
+  };
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    setHoveredIndex(-1);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setHoveredIndex(Number(id));
+    if (lastDragPosition.current !== null) {
+      const isDraggingUp = e.clientY < lastDragPosition.current;
+    }
+    lastDragPosition.current = e.clientY; // Continuously update position
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setHoveredIndex(-1);
+
+    const jsonData = JSON.parse(e.dataTransfer.getData("application/json"));
+    const draggedTask = tasks.find((task) => task.id === jsonData.id);
+
+    if (!draggedTask) return;
+
+    const remainingTasks = tasks.filter((task) => task.id !== jsonData.id);
+    const hoveredTaskPosition = remainingTasks.findIndex(
+      (task) => task.id === hoveredIndex
+    );
+
+    if (hoveredTaskPosition === -1) return;
+
+    const isDraggingUp = e.clientY < lastDragPosition.current;
+    const newIndex = isDraggingUp
+      ? hoveredTaskPosition
+      : hoveredTaskPosition + 1;
+
+    const finalTasks = [
+      ...remainingTasks.slice(0, newIndex),
+      draggedTask,
+      ...remainingTasks.slice(newIndex),
+    ];
+
+    setTasks(finalTasks);
+  };
+
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     setDragStarted(true);
-
+    setDraggedIndex(Number(id));
+    lastDragPosition.current = e.clientY;
     const dragImage = e.target as HTMLElement;
+    // create custom ghose image for proper control
     const clonedDragImage = dragImage.cloneNode(true) as HTMLElement;
-    // Apply styles to ensure visibility and scaling
     clonedDragImage.style.width = `${dragImage.offsetWidth}px`;
     clonedDragImage.style.height = `${dragImage.offsetHeight}px`;
-    // Add the cloned element to DOM
+    // // Add the cloned element to DOM
     document.body.appendChild(clonedDragImage);
     e.dataTransfer.setDragImage(clonedDragImage, 50, 50);
-    
+
     requestAnimationFrame(() => {
       document.body.removeChild(clonedDragImage);
     });
-    
+
     e.dataTransfer.setData("text", reactUnikId);
-    e.dataTransfer.setData("application/json", JSON.stringify({ id: id}));
+    e.dataTransfer.setData("application/json", JSON.stringify({ id: id }));
   };
   const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
     e.target.style.opacity = "";
     e.target.style.border = "";
     setDragStarted(false);
+    setDraggedIndex(-1);
   };
   return (
     <div
       id={reactUnikId}
+      ref={dragRef}
       draggable={true}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-
-      
-      className={`border transition-all duration-700 ease-linear !bg-black !text-white rounded-xl p-4 shadow-sm ${
+      // handling drag events in between similar elements
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      className={`border transition-all duration-300 ease-linear rounded-xl p-4 shadow-sm ${
         isCompleted ? "bg-green-50" : ""
       }
       ${dragStarted ? "opacity-20" : ""}
+      ${
+        hoveredIndex === Number(id) && draggedIndex !== hoveredIndex
+          ? "relative after:absolute after:content-[''] after:h-full  after:w-full after:box-border after:border-blue-500 after:border-4 after:border-dotted  after:left-0 after:translate-y-4 after:right-0 after:-bottom-full after:rounded-md after:z-10 !mb-[182px] block"
+          : ""
+      }
       `}
     >
       <div className="flex items-start justify-between">
         <div className="space-y-1">
           <h3 className={`font-medium ${isCompleted ? "line-through" : ""}`}>
-            {title}
+            {title} {id}
           </h3>
           <p className="text-sm text-gray-500">{subtitle}</p>
         </div>
