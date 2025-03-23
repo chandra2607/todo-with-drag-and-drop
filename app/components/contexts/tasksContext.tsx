@@ -68,6 +68,7 @@ export const TasksProvider = ({children}) => {
     <TasksContext.Provider
       value={{
         tasks,
+        setTasks,
         handleCompletionStatus,
         handleAddTodo,
         activeFilter,

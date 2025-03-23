@@ -4,17 +4,18 @@ import type React from "react"
 
 import { useState } from "react"
 import { Button } from "./Button"
+import dayjs from "dayjs"
 
 interface AddTodoPopupProps {
   isOpen: boolean
   onClose: () => void
-  onAddTodo: (todo: { title: string; description: string; date: string; time: string }) => void
+  onAddTodo: (todo: { title: string; description: string; date: string; time: string,priority:string }) => void
 }
 
 export function AddTodoPopup({ isOpen, onClose, onAddTodo }: AddTodoPopupProps) {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
-  const [date, setDate] = useState("")
+  const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"))
   const [priority, setPriority] = useState("")
 
   const handleSubmit = (e: React.FormEvent) => {

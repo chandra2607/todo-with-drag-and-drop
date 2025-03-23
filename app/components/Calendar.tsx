@@ -6,7 +6,7 @@ import { useTasksContext } from "./contexts/tasksContext"
 import dayjs from "dayjs"
 
 export function Calendar() {
-  const {tasks,selectedDate}=useTasksContext()
+  const {tasks,selectedDate,setTasks}=useTasksContext()
   const [currentDate, setCurrentDate] = useState(new Date())
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   
@@ -44,7 +44,22 @@ export function Calendar() {
   const firstDayOfMonth = getFirstDayOfMonth(year, month)
 
   const monthName = currentDate.toLocaleString("default", { month: "long" })
-
+  // handling drag event
+  const handleDrag=(e:React.DragEvent<HTMLButtonElement>,index)=>{
+    e.preventDefault();
+    const jsonData = JSON.parse(e.dataTransfer.getData("application/json"));
+    setTasks(prev=>{
+      return prev.map((task)=>{
+        if(task.id===jsonData.id)
+        {
+          task.timeSlot=dayjs(`${year}-${month+1}-${index+1}`).format('YYYY-MM-DD')
+        }
+        return task
+      })
+    })
+    setHoveredDate(prev=>[...prev.filter((i)=>i!==index)])
+  }
+  const [hoveredDate,setHoveredDate]=useState([])
   return (
     <div className="bg-white rounded-xl shadow-sm border p-4">
       <div className="flex justify-between items-center mb-4">
@@ -90,10 +105,34 @@ export function Calendar() {
             const _date=dayjs(`${year}-${month+1}-${day}`).format('YYYY-MM-DD')
             const _total=getTasksCountByDate(_date)
           return (
-            <Button  onClick={()=>handleSelectedDay(_date)} key={day} variant="secondary" className={`relative overflow-hidden p-2 h-[50px] lg:h-[70px] text-sm ${selectedDate===_date?'bg-green-500 hover:text-black':''} ${isToday ? "bg-blue-600 hover:text-black text-white" : ""}`}>
-              {day} {_total>0&&(<span className={'p-3 h rounded-full right-0 absolute top-0 bg-black text-white translate-x-1/4 -translate-y-1/4'}>{_total}</span>)}
+            <Button
+              onDrop={(e)=>handleDrag(e,index)}
+              onDragEnter={() => setHoveredDate(prev=>[...prev,index])}
+              onDragOver={(e) => {
+                e.preventDefault();
+              }}
+              onDragLeave={() => setHoveredDate(prev=>[...prev.filter((i)=>i!==index)])}
+              onClick={() => handleSelectedDay(_date)}
+              key={day}
+              variant="secondary"
+              className={`transition-all duration-300 ease-out relative overflow-hidden p-2 h-[50px] lg:h-[70px] text-sm ${
+                selectedDate === _date ? "bg-green-500 hover:text-black" : ""
+              } ${isToday ? "bg-blue-600 hover:text-black text-white" : ""}
+                ${hoveredDate.includes(index)?"bg-blue-200 scale-150":""}
+              `}
+            >
+              {day}{" "}
+              {_total > 0 && (
+                <span
+                  className={
+                    "p-3 h rounded-full right-0 absolute top-0 bg-black text-white translate-x-1/4 -translate-y-1/4"
+                  }
+                >
+                  {_total}
+                </span>
+              )}
             </Button>
-          )
+          );
         })}
       </div>
     </div>
