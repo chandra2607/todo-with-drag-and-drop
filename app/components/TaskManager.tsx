@@ -7,6 +7,7 @@ import { useTasksContext } from "./contexts/tasksContext";
 import { FilterButton } from "./FilterButton";
 import { Tab } from "./Tab";
 import { TaskCard } from "./TaskCard";
+import dayjs from "dayjs";
 
 export default function TaskManager() {
   const [activeTab, setActiveTab] = useState("today");
@@ -48,7 +49,7 @@ export default function TaskManager() {
               <div className="flex justify-between items-center mb-6">
                 <div>
                   <h1 className="text-2xl font-semibold mb-1">Today's Task</h1>
-                  <p className="text-gray-500">Wednesday, 11 May</p>
+                  <p className="text-gray-500"> {dayjs().format('dddd, D MMMM')}</p>
                 </div>
                 <Button
                   onClick={() => setIsAddTodoPopupOpen(true)}
